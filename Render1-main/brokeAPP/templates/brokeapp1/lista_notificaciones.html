@@ -1,0 +1,30 @@
+{% extends 'brokeAPP1/base_generic.html' %}
+
+{% block title %}Lista de Notificaciones{% endblock %}
+
+{% block content %}
+    <h1>Notificaciones</h1>
+    
+    {% if notificaciones %}
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notificacion in notificaciones %}
+                    <tr>
+                        <td>{{ notificacion.descripcion }}</td>
+                        <td>{% if notificacion.leida %}Leída{% else %}No Leída{% endif %}</td>
+                        <td>{{ notificacion.fecha_creacion|date:"d/m/Y H:i" }}</td>  <!-- Formato de fecha -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes notificaciones.</p>
+    {% endif %}
+{% endblock %}

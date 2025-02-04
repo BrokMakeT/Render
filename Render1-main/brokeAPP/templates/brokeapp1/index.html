@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Login - BROKEMAKE</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="icon">
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="logo1">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+ 
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'brokeapp2/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2//vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2/vendor/quill/quill.snow.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2/vendor/quill/quill.bubble.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2/vendor/remixicon/remixicon.css'%}" rel="stylesheet">
+  <link href="{% static 'brokeapp2/vendor/simple-datatables/style.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'brokeapp2/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="COLOR">
+
+  <main >
+    <div class="container ql-color-blue">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center rounded p-4">
+    
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="{% url 'home' %}" class="logo d-flex align-items-center w-auto">
+                                <img src="{% static 'brokeapp2/img/logo1.png' %}" alt="Logo">
+                                <span class="d-none d-lg-block">BROKMAKE</span>
+                            </a>
+                        </div><!-- End Logo -->
+    
+                        <div class="card mb-3 p-5" style="border: 8px solid #808080; border-radius: 30px;">
+                            <div class="pt-4 pb-2 text-center"> <!-- Centrar la imagen -->
+                                <img src="{% static 'brokeapp2/img/Logocompleto.png' %}" alt="Imagen descriptiva" class="img-fluid mb-3">
+                            </div>
+    
+                            <div class="d-flex justify-content-between"> <!-- Botones alineados correctamente -->
+                                <a href="{% url 'loginAdmin' %}" class="w-100 me-2"> <!-- Enlace al URL para el botón ADMIN -->
+                                    <button type="button" class="btn customf-butf w-100"> <!-- Usar clase personalizada -->
+                                        <div class="d-flex flex-column align-items-center"> <!-- Contenedor flexible -->
+                                            <img src="{% static 'brokeapp2/img/iconAdmin.png' %}" alt="Imagen 1" class="img-fluid" style="width: 30px; height: 30px;">
+                                            <h1 class="text-white my-2">ADMIN</h1> <!-- Clase my-2 para márgenes verticales -->
+                                            <img src="{% static 'brokeapp2/img/porAdmin.png' %}" alt="Imagen 2" class="img-fluid" style="width: 30px; height: 30px;">
+                                        </div>
+                                    </button>
+                                </a>
+                            
+                                <a href="{% url 'loginUser' %}" class="w-100"> <!-- Enlace al URL para el botón USER -->
+                                    <button type="button" class="btn customf-butf w-100"> <!-- Usar clase personalizada -->
+                                        <div class="d-flex flex-column align-items-center"> <!-- Contenedor flexible -->
+                                            <img src="{% static 'brokeapp2/img/iconEmpleado.png' %}" alt="Imagen 3" class="img-fluid" style="width: 30px; height: 30px;">
+                                            <h1 class="text-white my-2">USER</h1> <!-- Clase my-2 para márgenes verticales -->
+                                            <img src="{% static 'brokeapp2/img/porEmpleado.png' %}" alt="Imagen 4" class="img-fluid" style="width: 30px; height: 30px;">
+                                        </div>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+      
+                        <div class="credits">
+                            si no tienes cuenta <a href="#"> brokemake</a> solicita una con tu administrador
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+  
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'brokeapp2/vendor/apexcharts/apexcharts.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/chart.js/chart.umd.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/echarts/echarts.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/quill/quill.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/simple-datatables/simple-datatables.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/tinymce/tinymce.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/php-email-form/validate.js'%}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'brokeapp2/js/main.js'%}"></script>
+
+</body>
+
+</html>

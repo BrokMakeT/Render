@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Correo</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'brokeapp2/css/style.css' %}" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                <li><a href="{% url 'lista_notificaciones' %}">Notificaciones</a></li>
+                <!-- Agrega más enlaces de navegación según sea necesario -->
+            </ul>
+        </nav>
+    </header>
+
+    <div id="content">
+        {% block content %}
+        <!-- Aquí se incluirá el contenido específico de cada plantilla que extienda esta base -->
+        {% endblock %}
+    </div>
+
+    <footer id="footer" class="footer">
+        <div class="copyright">
+          &copy; Copyright <strong><span>BROKMAKE</span></strong>.
+        </div>
+        
+      </footer><!-- End Footer -->
+
+    <!-- Agrega tus scripts aquí, si es necesario -->
+    <script src="{% static 'brokeapp2/main.js' %}"></script>
+</body>
+</html>

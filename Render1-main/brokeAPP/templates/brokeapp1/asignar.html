@@ -1,0 +1,859 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Asignar / </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons  samuel se la come -->
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="icon">
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="logo1">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+ <!-- Vendor CSS Files -->
+ <link href="{% static 'brokeapp2/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2//vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/quill/quill.snow.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/quill/quill.bubble.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/remixicon/remixicon.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/simple-datatables/style.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'brokeapp2/css/style.css' %}" rel="stylesheet">
+</head>
+
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center">
+        <img src="{% static 'brokeapp2/img/logo1.png'%}" alt="">
+        <span class="d-none d-lg-block">BROKMAKE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">{{ notificaciones_no_leidas.count }}</span>
+          </a><!-- End Notification Icon -->
+        
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <li class="dropdown-header">
+                  You have {{ notificaciones_no_leidas.count }} new notifications
+                  <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+        
+              {% for notificacion in notificaciones %}
+                  <li class="notification-item">
+                      {% if notificacion.leida %}
+                          <i class="bi bi-check-circle text-success"></i>
+                      {% else %}
+                          <i class="bi bi-exclamation-circle text-warning"></i>
+                      {% endif %}
+                      <div>
+                          <h4>{{ notificacion.descripcion }}</h4>
+                          <p>{{ notificacion.fecha_creacion|timesince }} ago</p>
+                      </div>
+                  </li>
+        
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+              {% empty %}
+                  <li class="notification-item">
+                      <div>
+                          <h4>No new notifications</h4>
+                      </div>
+                  </li>
+              {% endfor %}
+        
+              <li class="dropdown-footer">
+                  <a href="#">Show all notifications</a>
+              </li>
+          </ul><!-- End Notification Dropdown Items -->
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+        </a><!-- End Asignar Image Icon -->
+        
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+                <h6>{{ request.user.get_full_name }}</h6> <!-- Muestra el nombre completo -->
+                <span>{{ request.user.email }}</span> <!-- Muestra el correo del usuario -->
+            </li>
+            <li>
+                <!-- Agrega opciones de perfil aquí -->
+            </li>
+        
+              <hr class="dropdown-divider">
+            </li>
+           
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Asignar Dropdown Items -->
+        </li><!-- End Asignar Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+
+        <a class="nav-link collapsed " href="{% url 'dashboardA' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " data-bs-target="#components-nav" data-bs-toggle="" href="{% url 'asignar' %}">
+
+            <i class="bi bi-menu-button-wide"></i><span>Asignar</span><i class=""></i>
+        </a>
+    </li><!-- End Components Nav -->
+    
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle=".html" href="{% url 'tablas' %}">
+          <i class="bi bi-journal-text"></i><span>Empleados</span><i class=""></i>
+        </a>
+       
+      </li>
+      <!-- End Forms Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Correo' %}">
+          <i class="bi bi-envelope"></i>
+          <span>Mensaje</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Registrar' %}">
+          <i class="bi bi-card-list"></i>
+          <span>Registro</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'lista_usuarios' %}">
+          <i class="bi bi-lock"></i>
+          <span>Listas usuarios</span>
+        </a>
+       
+        <!-- End Register Page Nav -->
+      </li><!-- End Register Page Nav -->
+    </ul>
+
+  </aside>
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Asignar </h1>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+       
+
+        <div class="col-xl-12"><!-- tabla -->
+
+          <div class="card">
+            <div class="card-body pt-12">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Anclajes </button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link " data-bs-toggle="tab" data-bs-target="#profile-config">configuraciones  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Asignados</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Procesos</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-complete">Anclajes completados</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-finalice">Tareas Finalizadas</button>
+                </li>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cargarExcelModal">
+                  <i class="bi bi-upload"></i> Subir y Cargar Datos
+                </button>
+                <!-- Botón para abrir el modal de Generar Reporte Excel -->
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generarReporteModal">
+  Generar Reporte Excel
+</button>
+
+<!-- Botón para abrir el modal de Borrar Datos -->
+<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#borrarDatosModal">
+  Borrar Datos
+</button>
+
+<!-- Modal para Generar Reporte Excel -->
+<div class="modal fade" id="generarReporteModal" tabindex="-1" aria-labelledby="generarReporteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="generarReporteModalLabel">Generar Reporte Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas generar el reporte en formato Excel?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a href="{% url 'generar_reporte_excel' %}" class="btn btn-success">Generar Reporte</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% if messages %}
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Información</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        messageModal.show();
+    });
+</script>
+{% endif %}
+
+
+<!-- Modal para Borrar Datos -->
+<div class="modal fade" id="borrarDatosModal" tabindex="-1" aria-labelledby="borrarDatosModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="borrarDatosModalLabel">Borrar Datos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas borrar todos los datos de la tabla de tareas? Esta acción es irreversible.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a href="{% url 'borrar_datos_y_generar_excel' %}" class="btn btn-danger">Borrar Datos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Mostrar advertencia y formulario de confirmación de borrado -->
+{% if mensaje %}
+  <div class="alert alert-warning">
+    <strong>Advertencia:</strong> {{ mensaje }}
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirmar Borrado y Generar Reporte</button>
+    <a href="{% url 'asignar' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endif %}
+
+
+              </ul>
+
+
+<!-- Modal -->
+<div class="modal fade" id="cargarExcelModal" tabindex="-1" aria-labelledby="cargarExcelModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="alert {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+        <h5 class="modal-title" id="cargarExcelModalLabel">Subir Archivo Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Cuerpo del modal -->
+      <div class="modal-body">
+        <form method="POST" action="{% url 'cargar_excel' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+              <label for="archivo_excel" class="form-label">Selecciona un archivo Excel:</label>
+              <input 
+                  type="file" 
+                  name="archivo_excel" 
+                  id="archivo_excel" 
+                  class="form-control" 
+                  accept=".xlsx, .xls" 
+                  required
+              >
+          </div>
+          <button type="submit" class="btn btn-success w-100">
+              <i class="bi bi-cloud-upload"></i> Cargar
+          </button>
+      </form>
+      
+      </div>
+    </div>
+  </div>
+</div>
+<!--  _________________________________________________tablas inicio _______________________________________________  -->
+              <div class="tab-content pt-12">
+            <!-- _________________________________Lista tareas normal_________________________________________________________________ -->  
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  
+                  <div class="card-body mt-12">
+                    <div class="container mt-12">
+
+                      <div class="table-responsive mt-4">
+                        <h2></h2>
+                        <div class="mb-3">
+                          <input type="text" id="searchInput" class="form-control" placeholder="Buscar tareas...">
+                         </div>
+
+                    <table class="table table-bordered mt-12">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Num_Cajero</th>
+              <th>Descripción</th>
+              <th>Fecha de Anclaje</th>
+              <th>hora de  Anclaje</th>
+              
+              <th>Dirección</th>
+              <th>Actividad</th>
+              <th>Asignar Usuario</th> <!-- Columna para seleccionar usuario -->
+              <th>Acciones</th> <!-- Columna para el botón de asignar -->
+          </tr>
+      </thead>
+      <tbody id="tareaTableBody">
+          {% for tarea in tareas_no_asignadas %}
+          {% if tarea.actividad == "Anclaje" %}
+          <tr>
+              <td>{{ tarea.id }}</td>
+              <td>{{ tarea.num_cajero }}</td>
+              <td>{{ tarea.descripcion }}</td>
+              <td>{{ tarea.fecha_anclaje }}</td>
+              <td>{{ tarea.hora_anclaje }}</td>
+              <td>{{ tarea.direccion }}</td>
+              <td>{{ tarea.actividad }}</td>
+              <td>
+                <select id="tabla1-usuario-select-{{ tarea.id }}" class="form-select" name="usuario_id" required>
+                  <option value="">Seleccione un usuario</option>
+                  {% for usuario in usuarios %}
+                      <option value="{{ usuario.id }}">{{ usuario.first_name }} {{ usuario.last_name }}</option>
+                  {% endfor %}
+              </select>
+              
+              </td>
+              <td>
+                <button class="btn btn-primary" onclick="asignarTarea('tabla1', {{ tarea.id }})">Asignar</button>
+              </td>
+          </tr>
+          {% endif %}
+          {% empty %}
+          <tr>
+              <td colspan="7">No hay tareas no asignadas.</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+                          </table>
+                  </div>
+      
+                  </div>
+                </div>
+                </div>
+            <!-- _________________________________Lista tareas Configuracion_________________________________________________________________ -->    
+            <div class="tab-pane fade profile-edit pt-3" id="profile-config">
+                  
+              <div class="card-body mt-12">
+                <div class="container mt-12">
+
+                  <div class="table-responsive mt-4">
+                    <h2></h2>
+                    <div class="mb-3">
+                      <input type="text" id="searchInput" class="form-control" placeholder="Buscar tareas...">
+                    </div>
+
+                <table class="table table-bordered mt-12">
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Num_Cajero</th>
+          <th>Descripción</th>
+          <th>Fecha de Configuración</th>
+          <th>hora de  Configuración</th>
+          
+          <th>Dirección</th>
+          <th>Actividad</th>
+          <th>Asignar Usuario</th> <!-- Columna para seleccionar usuario -->
+          <th>Acciones</th> <!-- Columna para el botón de asignar -->
+      </tr>
+  </thead>
+  <tbody id="tareaTableBody">
+    {% for tarea in tareas_no_asignadas %}
+    {% if tarea.actividad == "Configuración" %}
+    <tr>
+        <td>{{ tarea.id }}</td>
+        <td>{{ tarea.num_cajero }}</td>
+        <td>{{ tarea.descripcion }}</td>
+        <td>{{ tarea.fecha_vencimiento }}</td>
+        <td>{{ tarea.hora_venconfig }}</td>
+        <td>{{ tarea.direccion }}</td>
+        <td>{{ tarea.actividad }}</td>
+        <td>
+            <select id="tabla2-usuario-select-{{ tarea.id }}" class="form-select" name="usuario_id" required>
+                <option value="">Seleccione un usuario</option>
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.first_name }} {{ usuario.last_name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <button class="btn btn-primary" onclick="asignarTarea('tabla2', {{ tarea.id }})">Asignar</button>
+        </td>
+    </tr>
+    {% endif %}
+    {% empty %}
+    <tr>
+        <td colspan="7">No hay tareas no asignadas.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+
+
+                      </table>
+              </div>
+  
+              </div>
+            </div>
+            </div>
+            <!--------------------------- Tabla Asignados ----------------------------------------------------------------------------->
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <div class="card-body mt-12">
+                    <div class="container mt-12">
+            
+                        <div class="table-responsive mt-4">
+                            <h2></h2>
+                            <div class="mb-3">
+                                <input type="text" id="searchInput1" class="form-control" placeholder="Buscar tareas...">
+                            </div>
+                            <table class="table table-bordered mt-12">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descripción</th>
+                                        <th>Fecha de tarea</th>
+                                        <th>hora de tarea</th>
+                                        <th>Dirección</th>
+                                        <th>Actividad</th>
+                                        <th>Num_Cajero</th>
+                                        <th>Asignado a</th>
+                                        <th>Aceptado</th>
+                                        <th>Reasignar</th>
+                                        <th>Observaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tareaAsignadaTableBody">
+                                    {% for tarea in tareas_asignadas %}
+                                        {% if not tarea.completada %}
+                                            <tr>
+                                                <td>{{ tarea.id }}</td>
+                                                <td>
+                                                  <input type="text" 
+                                                  value="{{ tarea.descripcion }}" 
+                                                  class="form-control descripcion-input" 
+                                                  data-id="{{ tarea.id }}" />
+                                          
+                                          <!-- Script para enviar el cambio -->
+                                          <script>
+                                              document.querySelectorAll('.descripcion-input').forEach(input => {
+                                                  input.addEventListener('blur', function() {
+                                                      const tareaId = input.getAttribute('data-id');
+                                                      const nuevaDescripcion = input.value;
+                                                      fetch("{% url 'actualizar_descripcion' %}", {
+                                                          method: 'POST',
+                                                          headers: {
+                                                              'Content-Type': 'application/x-www-form-urlencoded',
+                                                               'X-CSRFToken': '{{ csrf_token }}'  // Incluir CSRF Token para proteger la solicitud
+                                                          },
+                                                          body: `tarea_id=${tareaId}&descripcion=${nuevaDescripcion}`
+                                                      })
+                                                      .then(response => response.json())
+                                                      .then(data => {
+                                                          if (data.mensaje) {
+                                                               alert(data.mensaje);  // Mostrar mensaje de éxito
+                                                          }
+                                                      })
+                                                      .catch(error => {
+                                                          console.error('Error:', error);
+                                                      });
+                                                  });
+                                              });
+                                          </script>
+                                              
+                                                  
+                                              
+                                              
+                                                
+                                              <td>
+                                                {% if tarea.actividad == "Anclaje" %}
+                                                    {{ tarea.fecha_anclaje }}
+                                                {% elif tarea.actividad == "Configuración" %}
+                                                    {{ tarea.fecha_vencimiento }}
+                                                {% else %}
+                                                    No disponible
+                                                {% endif %}
+                                            </td>
+                                              <td>
+                                                {% if tarea.actividad == "Anclaje" %}
+                                                    {{ tarea.hora_anclaje }}
+                                                {% elif tarea.actividad == "Configuración" %}
+                                                    {{ tarea.hora_venconfig }}
+                                                {% else %}
+                                                    No disponible
+                                                {% endif %}
+                                            </td>
+                                                <td>{{ tarea.direccion }}</td>
+                                                <td>{{ tarea.actividad }}</td>
+                                                <td>{{ tarea.num_cajero }}</td>
+                                                <td>{{ tarea.usuario.first_name }} {{ tarea.usuario.last_name }}</td>
+                                                <td>
+                                                  {% if tarea.confirmacion == 'confirmado' %}
+                                                      <img src="{% static 'brokeapp2/img/correct.png' %}" alt="Confirmado" />
+                                                  {% elif tarea.confirmacion == 'rechazado' %}
+                                                      <img src="{% static 'brokeapp2/img/cross.png' %}" alt="Rechazado" />
+                                                  {% else %}
+                                                      <img src="{% static 'brokeapp2/img/pendiente.png' %}" alt="Sin Confirmar" />
+                                                  {% endif %}
+                                              </td>
+                                                
+                                                <td>
+                                                    <select id="usuario-modificar-{{ tarea.id }}" class="form-select" name="usuario_id" required>
+                                                        <option value="">Seleccione un usuario</option>
+                                                        {% for usuario in usuarios %}
+                                                            <option value="{{ usuario.id }}">{{ usuario.first_name }} {{ usuario.last_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <button class="btn btn-warning mt-2" onclick="modificarAsignacion({{ tarea.id }})">Modificar</button>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="observacion-{{ tarea.id }}" class="form-control" placeholder="Escriba una observación" />
+                                                    <button class="btn btn-primary mt-2" onclick="guardarObservacion({{ tarea.id }})">Guardar</button>
+                                                    <button class="btn btn-success mt-2" onclick="completarTarea({{ tarea.id }})">Confirmar</button>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="9">No hay tareas asignadas.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+
+                              
+                        </div>
+                    </div>
+                </div>
+               </div>
+                <!---------------- Tabla   tareas en proceso ----------------- -->
+               <div class="tab-pane fade profile-edit pt-3" id="profile-settings">
+                <div class="table-responsive mt-4">
+                  <h2>Tareas en Proceso</h2>
+                  <table class="table table-bordered mt-12">
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Descripción</th>
+                              <th>Fecha de tarea</th>
+                              <th>Dirección</th>
+                              <th>Actividad</th>
+                              <th>Num_Cajero</th>
+                              <th>Asignado a</th>
+                              <th>Estado</th> <!-- Nueva columna para el estado -->
+                          </tr>
+                      </thead>
+                      <tbody id="tareaCompletadaTableBody">
+                        {% for tarea in tareas_completadas %}
+                            <tr>
+                                <td>{{ tarea.id }}</td>
+                                <td>{{ tarea.descripcion }}</td>
+                                <td>
+                                  {% if tarea.actividad == "Anclaje" %}
+                                      {{ tarea.fecha_anclaje }}
+                                  {% elif tarea.actividad == "Configuración" %}
+                                      {{ tarea.fecha_vencimiento }}
+                                  {% else %}
+                                      No disponible
+                                  {% endif %}
+                              </td>
+                                <td>{{ tarea.direccion }}</td>
+                                <td>{{ tarea.actividad }}</td>
+                                <td>{{ tarea.num_cajero }}</td>
+                                <td>{{ tarea.usuario.first_name }} {{ tarea.usuario.last_name }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if tarea.estado == 'iniciado' %}
+                                            bg-primary
+                                        {% elif tarea.estado == 'en_proceso' %}
+                                            bg-warning text-dark
+                                        {% elif tarea.estado == 'completado' %}
+                                            bg-success 
+                                        {% elif tarea.estado == 'Anclaje_completado' %}
+                                            bg-success text-dark
+
+                                        {% elif tarea.estado == 'finalizado' %}
+                                            bg-primary
+                                            bg-success text-dark
+                                        {% elif tarea.estado == 'pendiente_revision' %}
+                                            bg-secondary
+                                        {% elif tarea.estado == 'cancelado' %}
+                                            bg-danger
+                                        {% elif tarea.estado == 'reprogramado' %}
+                                            bg-info text-dark
+                                        {% else %}
+                                            bg-light text-dark
+                                        {% endif %}
+                                        
+                                    ">
+                                        {{ tarea.estado|title }}
+
+                                    </span>
+                                {% if tarea.estado == 'cancelado' or tarea.estado == 'reprogramado' %}
+                                <a href="{% url 'reagendar_tarea' tarea.id %}" class="btn btn-warning">Reagendar</a>
+                            {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8">No hay tareas completadas.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                  </table>
+              </div>
+              
+              </div>
+                <!---------------- anclajes completados ----------------- -->
+            <div class="tab-pane fade profile-edit pt-3" id="profile-complete">
+                
+            <div class="table-responsive mt-4">
+              <h2>Tareas Completadas</h2>
+              <table class="table table-bordered mt-12">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Descripción</th>
+                          <th>Dirección</th>
+                          <th>Actividad</th>
+                          <th>Num_Cajero</th>
+                          <th>Asignado a</th>
+                          
+                          <th>Acciones</th>
+
+
+                      </tr>
+                  </thead>
+                  <tbody id="tareaCompletadaTableBody">
+                    {% for tarea in tareas_completadas %}
+                    {% if tarea.estado == "Anclaje_completado" %}
+                        <tr>
+                            <td>{{ tarea.id }}</td>
+                            <td>{{ tarea.descripcion }}</td>
+                            <td>{{ tarea.direccion }}</td>
+                            <td>{{ tarea.actividad }}</td>
+                            <td>{{ tarea.num_cajero }}</td>
+                            <td>{{ tarea.usuario.first_name }} {{ tarea.usuario.last_name }}</td>
+                            <td>
+                                <!-- Botón para mover la tarea a Configuración -->
+                                <button class="btn btn-success mt-2" onclick="actualizarActividad({{ tarea.id }}, 'Configuración')">Confirmar</button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">No hay tareas completadas.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+          </div>
+               </div>
+                <!---------------- tareas finalizadas ----------------- -->
+            <div class="tab-pane fade profile-edit pt-3" id="profile-finalice">    
+            <div class="table-responsive mt-4">
+              <h2>Tareas Finalizadas</h2>
+              <table class="table table-bordered mt-12">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripción</th>
+                        <th>Dirección</th>
+                        <th>Actividad</th>
+                        <th>Num_Cajero</th>
+                        <th>Asignado a</th>
+                        <th>Acciones</th> <!-- Columna para el botón de finalización -->
+                    </tr>
+                </thead>
+                <tbody id="tareaCompletadaTableBody">
+                    {% for tarea in tareas_completadas %}
+                        {% if tarea.estado == "completado" %}
+                            <tr>
+                                <td>{{ tarea.id }}</td>
+                                <td>{{ tarea.descripcion }}</td>
+                                <td>{{ tarea.direccion }}</td>
+                                <td>{{ tarea.actividad }}</td>
+                                <td>{{ tarea.num_cajero }}</td>
+                                <td>{{ tarea.usuario.first_name }} {{ tarea.usuario.last_name }}</td>
+                                <td>
+                                    <!-- Botón para quitar tarea de "Procesos" y moverla a "Finalizados" -->
+                                    <button class="btn btn-danger mt-2" onclick="quitarDeProcesos({{ tarea.id }})">
+                                        Finalizar Tarea
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">No hay tareas completadas.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+               </div>
+
+               </div>
+               <!--  _________________________________________________tablas fin _______________________________________________  -->
+               </div>
+              <!-- End Bordered Tabs -->
+            </div>
+          </div>
+          </div>
+          <!--final de card body 1-->
+        </div>
+        
+        <div class="col-xl-4">
+          
+        <link href="{% static 'brokeapp2/css/style.css' %}" rel="stylesheet">
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>BROKMAKE</span></strong>.
+    </div>
+    
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'brokeapp2/vendor/apexcharts/apexcharts.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/chart.js/chart.umd.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/echarts/echarts.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/quill/quill.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/simple-datatables/simple-datatables.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/tinymce/tinymce.min.js'%}"></script>
+  <script src="{% static 'brokeapp2/vendor/php-email-form/validate.js'%}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'brokeapp2/js/main.js'%}"></script>
+
+</body>
+
+</html>

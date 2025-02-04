@@ -1,0 +1,8 @@
+# Ignorar archivos de entorno
+.env
+
+# Ignorar la carpeta de dependencias de Python
+venv/
+__pycache__/
+
+build.sh

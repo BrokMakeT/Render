@@ -1,0 +1,372 @@
+
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Lista de usuarios</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="icon">
+  <link href="{% static 'brokeapp2/img/logo1.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+ <!-- Vendor CSS Files -->
+ <link href="{% static 'brokeapp2/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2//vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/quill/quill.snow.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/quill/quill.bubble.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/remixicon/remixicon.css'%}" rel="stylesheet">
+ <link href="{% static 'brokeapp2/vendor/simple-datatables/style.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'brokeapp2/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center">
+        <img src="{% static 'brokeapp2/img/logo1.png'%}" alt="">
+        <span class="d-none d-lg-block">BROKMAKE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+  
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-bell"></i>
+              <span class="badge bg-primary badge-number">{{ notificaciones_no_leidas.count }}</span>
+          </a><!-- End Notification Icon -->
+        
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+              <li class="dropdown-header">
+                  You have {{ notificaciones_no_leidas.count }} new notifications
+                  <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+              </li>
+              <li>
+                  <hr class="dropdown-divider">
+              </li>
+        
+              {% for notificacion in notificaciones %}
+                  <li class="notification-item">
+                      {% if notificacion.leida %}
+                          <i class="bi bi-check-circle text-success"></i>
+                      {% else %}
+                          <i class="bi bi-exclamation-circle text-warning"></i>
+                      {% endif %}
+                      <div>
+                          <h4>{{ notificacion.descripcion }}</h4>
+                          <p>{{ notificacion.fecha_creacion|timesince }} ago</p>
+                      </div>
+                  </li>
+        
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+              {% empty %}
+                  <li class="notification-item">
+                      <div>
+                          <h4>No new notifications</h4>
+                      </div>
+                  </li>
+              {% endfor %}
+        
+              <li class="dropdown-footer">
+                  <a href="#">Show all notifications</a>
+              </li>
+          </ul><!-- End Notification Dropdown Items -->
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+        </a><!-- End Asignar Image Icon -->
+        
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+                <h6>{{ request.user.get_full_name }}</h6> <!-- Muestra el nombre completo -->
+                <span>{{ request.user.email }}</span> <!-- Muestra el correo del usuario -->
+            </li>
+            <li>
+                <!-- Agrega opciones de perfil aquí -->
+            </li>
+        
+              <hr class="dropdown-divider">
+            </li>
+           
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Asignar Dropdown Items -->
+        </li><!-- End Asignar Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'dashboardA' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="" href="{% url 'asignar' %}">
+            <i class="bi bi-menu-button-wide"></i><span>Asignar</span><i class=""></i>
+        </a>
+    </li><!-- End Components Nav -->
+    
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle=".html" href="{% url 'tablas' %}">
+          <i class="bi bi-journal-text"></i><span>Empleados</span><i class=""></i>
+        </a>
+       
+      </li>
+      <!-- End Forms Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Correo' %}">
+          <i class="bi bi-envelope"></i>
+          <span>Mensaje</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'Registrar' %}">
+          <i class="bi bi-card-list"></i>
+          <span>Registro</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'lista_usuarios' %}">
+          <i class="bi bi-lock"></i>
+          <span>Listas usuarios</span>
+        </a>
+
+      
+      </li><!-- End Register Page Nav -->
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <section class="section">
+        <div class="container" style="min-height: 80vh;">
+            <div class="card shadow-lg p-4" style="border: 5px solid #1e90ff; border-radius: 15px;">
+                <h3 class="text-center mb-4" style="color: #1e90ff;">📋 Lista de Usuarios</h3>
+                <div class="container table-responsive">
+                    <input class="form-control mb-3" id="searchInput" type="text" placeholder="Buscar..." style="border: 1px solid #1e90ff; border-radius: 8px;">
+                    <table class="table table-bordered">
+                        <thead style="background-color: #1e90ff; color: white;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable">
+                            {% for usuario in usuarios %}
+                            <tr>
+                                <td>{{ usuario.id }}</td>
+                                <td>{{ usuario.first_name }}</td>
+                                <td>{{ usuario.last_name }}</td>
+                                <td>{{ usuario.email }}</td>
+                                <td>{{ usuario.telefono }}</td>
+                                <td>{{ usuario.rol }}</td>
+                                <td>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ usuario.id }}">Editar</button>
+                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ usuario.id }}">Borrar</button>
+                                </td>
+                            </tr>
+
+                            <!-- Modal para editar usuario -->
+                             <!-- Modal para editar usuario -->
+          <div class="modal fade" id="editModal{{ usuario.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Editar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" action="{% url 'editar_usuario' usuario.id %}">
+                        {% csrf_token %}
+                       
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.first_name }}" required>
+                        </div>
+                       
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ usuario.last_name }}" required>
+                        </div>
+                       
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ usuario.email }}" required>
+                        </div>
+                       
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" value="{{ usuario.telefono }}">
+                        </div>
+                       
+                        <!-- Campo para la nueva contraseña -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Escriba la nueva contraseña (opcional)">
+                        </div>
+                       
+                        <!-- Campo para confirmar la nueva contraseña -->
+                        <div class="mb-3">
+                            <label for="confirmar_password" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="confirmar_password" name="confirmar_password" placeholder="Repita la nueva contraseña">
+                        </div>
+                       
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">Rol</label>
+                            <select class="form-control" id="rol" name="rol" required>
+                                <option value="Admin" {% if usuario.rol == 'Admin' %}selected{% endif %}>Admin</option>
+                                <option value="Empleado" {% if usuario.rol == 'Empleado' %}selected{% endif %}>Empleado</option>
+                            </select>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </form>
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                            <!-- Modal de confirmación para borrar usuario -->
+                            <div class="modal fade" id="confirmDeleteModal{{ usuario.id }}" tabindex="-1" aria-labelledby="confirmDeleteLabel{{ usuario.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #1e90ff; color: white;">
+                                            <h5 class="modal-title" id="confirmDeleteLabel{{ usuario.id }}">Confirmar Borrado</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Estás seguro de que deseas borrar al usuario {{ usuario.nombre }} {{ usuario.apellido }}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <form method="POST" action="{% url 'borrar_usuario' usuario.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Borrar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>BROKMAKE</span></strong>.
+    </div>
+    
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+ <!-- Vendor JS Files -->
+ <script src="{% static 'brokeapp2/vendor/apexcharts/apexcharts.min.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/chart.js/chart.umd.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/echarts/echarts.min.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/quill/quill.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/simple-datatables/simple-datatables.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/tinymce/tinymce.min.js'%}"></script>
+ <script src="{% static 'brokeapp2/vendor/php-email-form/validate.js'%}"></script>
+
+ <!-- Template Main JS File -->
+ <script src="{% static 'brokeapp2/js/main.js'%}"></script>
+
+
+
+
+
+  
+
+</body>
+
+</html>
