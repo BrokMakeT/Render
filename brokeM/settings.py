@@ -143,6 +143,7 @@ AUTH_USER_MODEL = 'brokeAPP.UsuarioCustomizado'
 
 
 # Importa el gestor de configuración desde el archivo .env
+
 import os
 from dotenv import load_dotenv
 
