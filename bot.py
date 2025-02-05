@@ -1,20 +1,25 @@
 import discord
 from discord.ext import commands
 import requests
-
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-TOKEN=os.getenv('DISCORD_API_KEY')
+TOKEN = os.getenv('DISCORD_API_KEY')  # Leer token desde la variable de entorno
 CHANNEL_ID = 1333257844866285668
-API_URL = 'http://127.0.0.1:8000/api/actualizar_estado/'  # Actualización del estado
-INFO_API_URL = 'http://127.0.0.1:8000/api/tarea/{}/'      # Obtener información de la tarea
+API_URL = 'http://127.0.0.1:8000/api/actualizar_estado/'
+INFO_API_URL = 'http://127.0.0.1:8000/api/tarea/{}/'
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = commands.Bot(command_prefix='!', intents=intents)
+
+if not TOKEN:
+    raise ValueError("❌ No se encontró el token de Discord. Asegúrate de configurarlo en las variables de entorno.")
+
+@client.event
+async def on_ready():
+    print(f'✅ Bot conectado como {client.user}')
+
+client.run(TOKEN)
 
 ESTADOS_VALIDOS = ['iniciado', 'en_proceso', 'Anclaje_completado', 'cancelado','completado', 'pendiente_revision', 'reprogramado']
 
