@@ -4,8 +4,10 @@ import requests
 import os
 TOKEN = os.getenv('DISCORD_API_KEY')
 CHANNEL_ID = 1333257844866285668
-API_URL = 'http://127.0.0.1:8000/api/actualizar_estado/'  # Actualización del estado
-INFO_API_URL = 'http://127.0.0.1:8000/api/tarea/{}/'      # Obtener información de la tarea
+API_BASE_URL = "https://rendert-wxg1.onrender.com"
+INFO_API_URL = f"{API_BASE_URL}/api/tarea/{{}}/"
+API_URL = f"{API_BASE_URL}/api/actualizar_estado/"
+
 
 intents = discord.Intents.default()
 intents.message_content = True
