@@ -18,6 +18,8 @@ if not TOKEN:
 @client.event
 async def on_ready():
     print(f'✅ Bot conectado como {client.user}')
+    
+print(client.all_commands)  # Esto imprimirá todos los comandos registrados
 
 client.run(TOKEN)
 
