@@ -141,9 +141,7 @@ AUTH_USER_MODEL = 'brokeAPP.UsuarioCustomizado'
 # JETTT______________________________________________________recuerda que se cambio a utils.y
 
 
-
-# Importa el gestor de configuración desde el archivo .env
-
+# Base de datos
 import os
 from dotenv import load_dotenv
 import dj_database_url
@@ -157,10 +155,12 @@ DATABASES = {
         'NAME': 'brok',
         'USER': 'brok_user',
         'PASSWORD': 'oPy8H7Tz8WDrTHt9XduQUvOIhzk67FBo',
-        'HOST': 'dpg-cugpkm3v2p9s73cm1mlg-a',  # Internal database hostname
+        'HOST': 'dpg-cugpkm3v2p9s73cm1mlg-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
+
+
 
 
 # Clave secreta de Django
