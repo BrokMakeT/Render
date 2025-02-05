@@ -146,18 +146,20 @@ AUTH_USER_MODEL = 'brokeAPP.UsuarioCustomizado'
 
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
-# Cargar las variables de entorno desde el archivo .env
+# Cargar las variables de entorno desde .env
 load_dotenv()
 
-# Base de datos
-import os
-import dj_database_url  # Asegúrate de instalarlo con pip install dj-database-url
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')  # Render te da esta variable
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'brok',
+        'USER': 'brok_user',
+        'PASSWORD': 'oPy8H7Tz8WDrTHt9XduQUvOIhzk67FBo',
+        'HOST': 'dpg-cugpkm3v2p9s73cm1mlg-a',  # Internal database hostname
+        'PORT': '5432',
+    }
 }
 
 
