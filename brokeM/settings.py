@@ -49,7 +49,7 @@ ROOT_URLCONF = 'brokeM.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'brokeAPP' / 'templates'],
+        'DIRS': [BASE_DIR / 'brokeAPP' / 'templates' / 'brokeapp1'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
