@@ -756,18 +756,13 @@ from .models import Tarea
 
 def borrar_datos_y_generar_excel(request):
     if request.method == 'POST':
-        # Obtener todas las tareas antes de borrarlas
+        # Generar el archivo Excel antes de borrar los datos
         tareas = Tarea.objects.all()
 
-        # Crear archivo Excel
+        # Crear el archivo Excel
         wb = Workbook()
         ws = wb.active
-        ws.append([
-            "ID", "Descripción", "Fecha de Vencimiento", "Dirección", "Actividad",
-            "Nombre del Usuario", "Num_Cajero", "Observaciones", "Completada",
-            "Cod_postal", "Estado", "Fecha de Anclaje", "Hora de Anclaje",
-            "Hora Venconfig", "Coordenadas"
-        ])
+        ws.append(["ID", "Descripción", "Fecha de Vencimiento", "Dirección", "Actividad", "Nombre del Usuario", "Num_Cajero", "Observaciones", "Completada", "Cod_postal", "Estado", "Fecha de Anclaje", "Hora de Anclaje", "Hora Venconfig", "Coordenadas"])
 
         for tarea in tareas:
             ws.append([
@@ -793,19 +788,21 @@ def borrar_datos_y_generar_excel(request):
         response['Content-Disposition'] = 'attachment; filename="tareas_reporte.xlsx"'
         wb.save(response)
 
-        # Borrar las tareas después de generar el reporte
+        # Borrar los datos de la tabla de tareas
         Tarea.objects.all().delete()
 
-        # Reiniciar el contador de ID en PostgreSQL
+        # Reiniciar el contador de la secuencia en PostgreSQL
         with connection.cursor() as cursor:
-            cursor.execute("ALTER SEQUENCE brokeapp_tarea_id_seq RESTART WITH 1;")
+            cursor.execute("SELECT setval(pg_get_serial_sequence('brokeapp_tarea', 'id'), 1, false);")
 
-        return response  # Retorna el archivo Excel
-
-    # Si no es una solicitud POST, muestra la página de confirmación
+        # Redirigir después de completar la acción
+        return response  # Devuelve el Excel directamente como respuesta
+    
+    # Si no es un POST, mostrar un mensaje en la misma página
     return render(request, 'brokeapp1/asignar.html', {
         'mensaje': '¿Está seguro de que desea borrar todas las tareas? Esta acción no se puede deshacer.',
     })
+
 
 
 from django.shortcuts import get_object_or_404, redirect
