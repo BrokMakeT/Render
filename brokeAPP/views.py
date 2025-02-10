@@ -793,7 +793,7 @@ def borrar_datos_y_generar_excel(request):
 
         # Reiniciar el contador de la secuencia en PostgreSQL
         with connection.cursor() as cursor:
-            cursor.execute("SELECT setval(pg_get_serial_sequence('brokeAPP_tarea', 'id'), 1, false);")
+            cursor.execute("SELECT setval(pg_get_serial_sequence('public.brokeAPP_tarea', 'id'), 1, false);")
 
         # Redirigir después de completar la acción
         return response  # Devuelve el Excel directamente como respuesta
@@ -802,6 +802,7 @@ def borrar_datos_y_generar_excel(request):
     return render(request, 'brokeapp1/asignar.html', {
         'mensaje': '¿Está seguro de que desea borrar todas las tareas? Esta acción no se puede deshacer.',
     })
+
 
 
 
