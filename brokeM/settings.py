@@ -150,7 +150,7 @@ import dj_database_url
 load_dotenv()
 
 DATABASES = {
-    'default': {
+       'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'brok',
         'USER': 'brok_user',
