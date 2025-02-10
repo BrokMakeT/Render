@@ -756,23 +756,27 @@ from .models import Tarea
 
 def borrar_datos_y_generar_excel(request):
     if request.method == 'POST':
-        # Generar el archivo Excel antes de borrar los datos
+        # Obtener todas las tareas antes de borrarlas
         tareas = Tarea.objects.all()
 
-       
-        # Crear el archivo Excel
+        # Crear archivo Excel
         wb = Workbook()
         ws = wb.active
-        ws.append(["ID", "Descripción", "Fecha de Vencimiento", "Dirección", "Actividad", "Nombre del Usuario", "Num_Cajero", "Observaciones", "Completada", "Cod_postal", "Estado", "Fecha de Anclaje", "Hora de Anclaje", "Hora Venconfig", "Coordenadas"])
+        ws.append([
+            "ID", "Descripción", "Fecha de Vencimiento", "Dirección", "Actividad",
+            "Nombre del Usuario", "Num_Cajero", "Observaciones", "Completada",
+            "Cod_postal", "Estado", "Fecha de Anclaje", "Hora de Anclaje",
+            "Hora Venconfig", "Coordenadas"
+        ])
 
         for tarea in tareas:
-                ws.append([
-                    tarea.id,
+            ws.append([
+                tarea.id,
                 tarea.descripcion,
                 tarea.fecha_vencimiento,
                 tarea.direccion,
                 tarea.actividad,
-                f"{tarea.usuario.first_name} {tarea.usuario.last_name}" if tarea.usuario else "No asignado",  # Comprobación añadida
+                f"{tarea.usuario.first_name} {tarea.usuario.last_name}" if tarea.usuario else "No asignado",
                 tarea.num_cajero,
                 tarea.observaciones,
                 tarea.completada,
@@ -782,26 +786,27 @@ def borrar_datos_y_generar_excel(request):
                 tarea.hora_anclaje,
                 tarea.hora_venconfig,
                 tarea.cordenadas,
-        ])
+            ])
 
         # Guardar el archivo Excel
         response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename="tareas_reporte.xlsx"'
         wb.save(response)
-        
-        # Borrar los datos de la tabla de tareas
+
+        # Borrar las tareas después de generar el reporte
         Tarea.objects.all().delete()
 
-        # Reiniciar el contador AUTO_INCREMENT
-      with connection.cursor() as cursor:
-      cursor.execute("ALTER SEQUENCE brokeapp_tarea_id_seq RESTART WITH 1;")
+        # Reiniciar el contador de ID en PostgreSQL
+        with connection.cursor() as cursor:
+            cursor.execute("ALTER SEQUENCE brokeapp_tarea_id_seq RESTART WITH 1;")
 
-        # Redirigir después de completar la acción
-        return response  # Devuelve el Excel directamente como respuesta
-    # Si no es un POST, mostrar un mensaje en la misma página
+        return response  # Retorna el archivo Excel
+
+    # Si no es una solicitud POST, muestra la página de confirmación
     return render(request, 'brokeapp1/asignar.html', {
         'mensaje': '¿Está seguro de que desea borrar todas las tareas? Esta acción no se puede deshacer.',
     })
+
 
 from django.shortcuts import get_object_or_404, redirect
 from .models import Tarea, HistorialTarea
