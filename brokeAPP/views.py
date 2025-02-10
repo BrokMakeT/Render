@@ -793,8 +793,8 @@ def borrar_datos_y_generar_excel(request):
         Tarea.objects.all().delete()
 
         # Reiniciar el contador AUTO_INCREMENT
-        with connection.cursor() as cursor:
-            cursor.execute("ALTER TABLE brokeapp_tarea AUTO_INCREMENT = 1;")
+      with connection.cursor() as cursor:
+      cursor.execute("ALTER SEQUENCE brokeapp_tarea_id_seq RESTART WITH 1;")
 
         # Redirigir después de completar la acción
         return response  # Devuelve el Excel directamente como respuesta
