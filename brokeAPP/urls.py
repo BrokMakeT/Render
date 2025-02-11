@@ -9,7 +9,8 @@ from .views import listar_tareas
 from django.urls import path
 from django.urls import path
 from .views import cambiar_estado_tarea
-
+from django.urls import path
+from .views import enviar_correo_view
 
 
 urlpatterns = [
@@ -78,7 +79,9 @@ path('chatAdmin/', views.chatAdmin, name='chatAdmin'),
 
 
 
-path('enviar_correo/', views.enviar_correo_view, name='enviar_correo'),
+path('enviar_correo/', enviar_correo_view, name='enviar_correo'),
+    # Otras rutas
+
 
 
 
