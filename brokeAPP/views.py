@@ -430,7 +430,7 @@ def enviar_correo_view(request):
         
         return redirect('enviar_correo')
     
-    return render(request, 'brokeapp1/correo.html')
+    return render(request, 'brokeapp1/Correo.html')
 
 
 
